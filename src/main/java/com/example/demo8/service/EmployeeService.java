@@ -47,6 +47,7 @@ public class EmployeeService {
     }
     public void edit(Employee employee,String id) {
             try {
+                System.out.println(employee.toString());
                 PreparedStatement ps = connection.prepareStatement("UPDATE employee SET name = ? , address = ? , email = ? ,phonenumber = ? , salary = ? ,department_id = ? WHERE id = ?");
                 ps.setString(1, employee.getName());
                 ps.setString(2, employee.getAddress());
@@ -64,5 +65,15 @@ public class EmployeeService {
         PreparedStatement ps = connection.prepareStatement("DELETE FROM employee WHERE id = ?");
         ps.setString(1, id);
         ps.executeUpdate();
+    }
+    public List<Employee> search(String name) throws SQLException{
+        List<Employee> employees = new ArrayList<Employee>();
+        PreparedStatement ps = connection.prepareStatement("SELECT * from employee WHERE name like ?");
+        ps.setString(1,"%"+name+"%");
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            employees.add(new Employee(rs.getInt("id"),rs.getString("name"), rs.getString("address"), rs.getString("email"),rs.getString("phonenumber"), rs.getDouble("salary"), rs.getString("department")));
+        }
+        return employees;
     }
 }

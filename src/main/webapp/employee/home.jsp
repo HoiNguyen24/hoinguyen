@@ -18,6 +18,8 @@
 </head>
 <body>
      <a href="http://localhost:8080/Gradle___com_example___demo8_1_0_SNAPSHOT_war/home?action=showAdd">Add</a>
+     <input name="search">
+     <a href="http://localhost:8080/Gradle___com_example___demo8_1_0_SNAPSHOT_war/home?action=search">Search</a>
      <table>
          <c:forEach items="${listEmployee}" var="item">
              <tr>

@@ -35,17 +35,30 @@ public class EmployeeController extends HttpServlet {
                           case "showHome":
                               showHome(req, resp);
                               break;
+                  case "search":
+                      search(req, resp);
+                      break;
               }
+    }
+    public void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String name = req.getParameter("search");
+            List<Employee> employees = employeeService.search(name);
+            req.setAttribute("listEmployee", employees);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("employee/home.jsp");
+            requestDispatcher.forward(req, resp);
+        }catch (Exception e){
+
+        }
     }
     public void showHome(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException {
           try {
               List<Employee> employees = employeeService.getAll();
-              System.out.println(employees);
               req.setAttribute("listEmployee", employees);
               RequestDispatcher requestDispatcher = req.getRequestDispatcher("employee/home.jsp");
               requestDispatcher.forward(req, resp);
           }catch (Exception e) {
-
+               e.printStackTrace();
           }
     }
     public void showAdd(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -59,13 +72,13 @@ public class EmployeeController extends HttpServlet {
         }
     }
     public void showEdit(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("employee/edit.jsp");
         try {
             String id = req.getParameter("EmployId");
             Employee employee = employeeService.getEmploy(id);
-            req.setAttribute("em", employee);
             List<Department> departments = departmentService.getAll();
+            req.setAttribute("em", employee);
             req.setAttribute("departments", departments);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("employee/edit.jsp");
             requestDispatcher.forward(req, resp);
         }catch (SQLException e){
                e.printStackTrace();
@@ -112,7 +125,7 @@ public class EmployeeController extends HttpServlet {
         }catch (Exception e) {
                 e.printStackTrace();
         }
-        resp.sendRedirect("home?action=showHome");*
+        resp.sendRedirect("home?action=showHome");
     }
     public void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
         String id = req.getParameter("EmployId");

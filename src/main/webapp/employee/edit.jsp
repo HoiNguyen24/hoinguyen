@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="http://localhost:8080/Gradle___com_example___demo8_1_0_SNAPSHOT_war/home?action=update" method="post">
+<form action="http://localhost:8080/Gradle___com_example___demo8_1_0_SNAPSHOT_war/home?action=update&EmployId=${em.id}" method="post">
     <div>
         <label for="name">Name</label>
         <input type="text" name="name" placeholder="name" id="name" value="${em.name}">
@@ -29,10 +29,11 @@
         <input type="text" name="phonenumber" placeholder="phonenumber" id="phonenumber" value="${em.phonenumber}">
     </div>
     <div>
-        <label for="salary"></label>
+        <label for="salary">Salary</label>
         <input type="number" name="salary" placeholder="salary" id="salary" value="${em.salary}">
     </div>
     <div>
+        <label for="department">Department</label>
         <select name="department" id="department">
             <c:forEach var="item" items="${departments}">
                 <option value="${item.id}">${item.name}</option>
